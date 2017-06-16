@@ -5,8 +5,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import store from './store';
-import { Main, Login, Signup, UserHome } from './components';
+import { Main, Login, Signup, UserHome, UserHomeContainer } from './components';
 import { me } from './reducer/user';
+
 
 const whoAmI = store.dispatch(me());
 
@@ -28,7 +29,7 @@ ReactDOM.render(
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route onEnter={requireLogin}>
-          <Route path="home" component={UserHome} />
+          <Route path="home" component={UserHomeContainer} />
         </Route>
       </Route>
     </Router>
