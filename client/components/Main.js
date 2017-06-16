@@ -12,13 +12,10 @@ const Main = props => {
   const { children, handleClick, loggedIn } = props;
 
   return (
-
     <div>
       <Header />
       { children }
     </div>
-
-
   );
 };
 

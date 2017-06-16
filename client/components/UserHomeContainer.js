@@ -15,7 +15,7 @@ const UserHomeContainer = props => {
         <div className="mdl-grid portfolio-max-width">
           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
               <div className="mdl-card__media">
-                  <img className="article-image" src=" images/example-work01.jpg" border="0" alt="" />
+                  <img className="article-image" src=" images/example-work01.jpg"  alt="" />
               </div>
               <div className="mdl-card__title">
                   <h2 className="mdl-card__title-text">Blog template</h2>
@@ -29,7 +29,7 @@ const UserHomeContainer = props => {
           </div>
           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
               <div className="mdl-card__media">
-                  <img className="article-image" src=" images/example-work07.jpg" border="0" alt="" />
+                  <img className="article-image" src=" images/example-work07.jpg"  alt="" />
               </div>
               <div className="mdl-card__title">
                   <h2 className="mdl-card__title-text">Sunt nulla</h2>
@@ -43,7 +43,7 @@ const UserHomeContainer = props => {
           </div>
           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
               <div className="mdl-card__media">
-                  <img className="article-image" src=" images/example-work02.jpg" border="0" alt="" />
+                  <img className="article-image" src=" images/example-work02.jpg"  alt="" />
               </div>
               <div className="mdl-card__title">
                   <h2 className="mdl-card__title-text">Android.com website</h2>
