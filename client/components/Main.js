@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import { logout } from '../reducer/user';
 import Header from './Header'
 import Login from './Login'
+
 // Component //
 
 const Main = props => {
@@ -15,10 +16,11 @@ const Main = props => {
     <div>
       <Header />
       { children }
+
     </div>
   );
 };
-
+// <script>mdc.autoInit()</script>
 Main.propTypes = {
   children: PropTypes.object,
   handleClick: PropTypes.func.isRequired,

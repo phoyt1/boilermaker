@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-var componentHandler = require('material-design-lite/material');
 
 // console.log('COMPONENT HANDLER!!!',componentHandler)
 
@@ -13,11 +12,11 @@ class Header extends React.Component {
         super(props)
     }
 
-componentDidMount() {
-    // This upgrades all upgradable components (i.e. with 'mdl-js-*' class)
-    console.log('COMPONENT DID MOUNT',componentHandler)
-     componentHandler.upgradeAllRegistered()
-}
+// componentDidMount() {
+//     // This upgrades all upgradable components (i.e. with 'mdl-js-*' class)
+//     console.log('COMPONENT DID MOUNT',componentHandler)
+//      componentHandler.upgradeAllRegistered()
+// }
 
 render(){
   return (
