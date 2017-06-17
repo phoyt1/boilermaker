@@ -13,11 +13,11 @@ class Header extends React.Component {
         super(props)
     }
 
-// componentDidUpdate() {
-//     // This upgrades all upgradable components (i.e. with 'mdl-js-*' class)
-//     console.log('COMPONENT DID UPDATE',componentHandler)
-//     componentHandler.upgradeDom();
-// }
+componentDidMount() {
+    // This upgrades all upgradable components (i.e. with 'mdl-js-*' class)
+    console.log('COMPONENT DID MOUNT',componentHandler)
+     componentHandler.upgradeAllRegistered()
+}
 
 render(){
   return (
@@ -51,6 +51,7 @@ render(){
               <a className='mdl-navigation__link' href='contact.html'>Contact</a>
           </nav>
       </div>
+
     </div>
   )}
 }
