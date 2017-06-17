@@ -31,7 +31,7 @@ render(){
               <nav className='mdl-navigation mdl-typography--body-1-force-preferred-font'>
 
                   <a className='mdl-navigation__link is-active' href='blog.html'>Blog</a>
-                  <a className='mdl-navigation__link' href='about.html'>About</a>
+                  <a className='mdl-navigation__link'>About</a>
                   <a className='mdl-navigation__link' href='contact.html'>Contact</a>
               </nav>
           </div>

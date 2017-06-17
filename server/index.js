@@ -34,8 +34,29 @@ const createApp = () => app
   }))
   .use(passport.initialize())
   .use(passport.session())
+//   .use(function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+//     //intercepts OPTIONS method
+//     if ('OPTIONS' === req.method) {
+//       //respond with 200
+//       res.send(200);
+//     }
+//     else {
+//     //move on
+//       next();
+//     }
+// })
   .use('/auth', require('./auth'))
   .use('/api', require('./api'))
+  .use('/s3', require('react-s3-uploader/s3router')({
+    bucket: 'photographerphoto',
+    region: 'us-east-1',
+    headers: {'Access-Control-Allow-Origin': '*'}, //optional
+    ACL: 'private', // this is default
+    }))
   .use((req, res, next) =>
     path.extname(req.path).length > 0 ? res.status(404).send('Not found') : next())
   .use('*', (req, res) =>
