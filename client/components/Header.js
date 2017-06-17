@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
+import { Layout, Drawer, Header, Navigation } from 'react-mdl';
 // console.log('COMPONENT HANDLER!!!',componentHandler)
 
 // Component //
 
-class Header extends React.Component {
+class AppHeader extends React.Component {
     constructor(props){
         super(props)
     }
@@ -21,10 +21,11 @@ class Header extends React.Component {
 render(){
   return (
     <div className='mdl-layout mdl-js-layout mdl-layout--fixed-header' data-upgraded=',MaterialLayout'>
+    <Layout>
       <header className='mdl-layout__header mdl-layout__header--waterfall portfolio-header mdl-layout--large-screen-only'>
           <div className='mdl-layout__header-row portfolio-logo-row'>
           </div>
-          <div className='mdl-layout__header-row portfolio-navigation-row'>
+          <Header className='mdl-layout__header-row portfolio-navigation-row'>
             <a className='mdl-navigation__link  mdl-layout-title' href='index.html'>Photographer</a>
               <div className='mdl-layout-spacer'></div>
               <nav className='mdl-navigation mdl-typography--body-1-force-preferred-font'>
@@ -33,7 +34,7 @@ render(){
                   <a className='mdl-navigation__link'>About</a>
                   <a className='mdl-navigation__link' href='contact.html'>Contact</a>
               </nav>
-          </div>
+          </Header>
 
       </header>
       <header className='mdl-layout__header mdl-layout__header--waterfall portfolio-header mdl-layout--small-screen-only'>
@@ -41,16 +42,16 @@ render(){
           <a className='mdl-navigation__link  mdl-layout-title mdl-layout-title-small' href='index.html'>Photographer</a>
         </div>
       </header>
-      <div className='mdl-layout__drawer mdl-layout--small-screen-only' aria-hidden='true'>
+      <Drawer className='mdl-layout__drawer mdl-layout--small-screen-only' aria-hidden='true'>
 
-          <nav className='mdl-navigation mdl-typography--body-1-force-preferred-font'>
+          <Navigation>
               <a className='mdl-navigation__link is-active' href='index.html'>Portfolio</a>
               <a className='mdl-navigation__link' href='blog.html'>Blog</a>
               <a className='mdl-navigation__link' href='about.html'>About</a>
               <a className='mdl-navigation__link' href='contact.html'>Contact</a>
-          </nav>
-      </div>
-
+          </Navigation>
+      </Drawer>
+      </Layout>
     </div>
   )}
 }
@@ -67,4 +68,4 @@ const mapDispatch = dispatch => ({
 
 });
 
-export default connect(mapState, mapDispatch)(Header);
+export default connect(mapState, mapDispatch)(AppHeader);

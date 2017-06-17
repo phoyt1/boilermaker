@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { logout } from '../reducer/user';
-import Header from './Header'
+import AppHeader from './Header'
 import Login from './Login'
-
+import { Layout, Drawer, Header, Navigation, HeaderRow } from 'react-mdl';
 // Component //
 
 const Main = props => {
@@ -14,9 +14,23 @@ const Main = props => {
 
   return (
     <div>
-      <Header />
-      { children }
+    <div style={{height: '300px', position: 'relative'}}>
+      <Layout fixedHeader style={{background: 'url(nav_background.jpg) center / cover'}}>
+        <Header transparent className="portfolio-navigation-row" title="Title" style={{color: 'white'}}>
+        </Header>
 
+        <Drawer title="Title">
+            <Navigation>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+            </Navigation>
+        </Drawer>
+
+      </Layout>
+      </div>
+      {children}
     </div>
   );
 };
