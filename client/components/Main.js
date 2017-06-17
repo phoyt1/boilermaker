@@ -16,15 +16,18 @@ const Main = props => {
     <div>
     <div style={{height: '300px', position: 'relative'}}>
       <Layout fixedHeader style={{background: 'url(nav_background.jpg) center / cover'}}>
-        <Header transparent className="portfolio-navigation-row" title="Title" style={{color: 'white'}}>
+        <Header transparent className="portfolio-navigation-row" title="Photographer" style={{color: 'white'}}>
         </Header>
 
-        <Drawer title="Title">
+        <Drawer title="Photographer">
             <Navigation>
                 <a href="#">Link</a>
                 <a href="#">Link</a>
                 <a href="#">Link</a>
-                <a href="#">Link</a>
+                { loggedIn
+                  ? <a href="#" onClick={handleClick}>Logout</a>
+                  : null
+                }
             </Navigation>
         </Drawer>
 

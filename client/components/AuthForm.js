@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 const AuthForm = props => {
 
@@ -7,6 +8,9 @@ const AuthForm = props => {
 
   return (
     <div className="mdl-layout mdl-js-layout">
+      <nav>
+        <Link to="/signup">Sign Up</Link>
+      </nav>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="email"><small>Email</small></label>
