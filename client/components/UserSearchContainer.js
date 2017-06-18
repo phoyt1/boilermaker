@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 
-//import { Card, CardTitle, CardActions, CardText, Textfield, Button } from 'react-mdl';
+import { List, ListItem, ListItemContent } from 'react-mdl';
 
 class UserSearchContainer extends React.Component {
   constructor(props){
@@ -12,8 +12,22 @@ class UserSearchContainer extends React.Component {
   }
   render (props) {
     console.log('PROPS',this.props)
+    var allUsers = this.props.allUsers;
+    allUsers = allUsers.sort(function (a, b) {
+      return b.email[0] - a.email[0];
+    })
     return (
-      <p>Users will be listed here</p>
+      <List>
+      {
+        allUsers.map(user => {
+          return (
+            <ListItem key={user.id}>
+              <Link to={`/search/${user.id}`}><ListItemContent icon="person">{user.email}</ListItemContent></Link>
+            </ListItem>
+          )
+        })
+      }
+      </List>
     )
   }
 }
@@ -21,7 +35,12 @@ class UserSearchContainer extends React.Component {
 // Container //
 
 const mapState = ({ users }) => ({
-    allUsers: users.allUsers
+    allUsers: users.allUsers.map(user => {
+      return {
+        email: user.email,
+        id: user.id
+      }
+    })
 });
 
 const mapDispatch = dispatch => ({
