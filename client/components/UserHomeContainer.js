@@ -2,29 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { sendUploadedPhoto } from '../reducer/userPosts'
+import { storeUploadedPhoto } from '../reducer/userPosts'
 var ReactS3Uploader = require('react-s3-uploader');
-import { Card, CardTitle, CardActions, CardText, Button } from 'react-mdl';
+import { Card, CardTitle, CardActions, CardText, Textfield, Button } from 'react-mdl';
+const HOST = window.location.protocol.concat("//").concat(window.location.host);
 
 class UserHomeContainer extends React.Component {
   constructor(props){
     super(props)
-  this.onUploadFinish = this.onUploadFinish.bind(this)
+    this.state = {
+        uploadTitle: ''
+    }
+  this.onUploadFinish = this.onUploadFinish.bind(this);
+  this.onUploadError = this.onUploadError.bind(this);
   }
   render(props){
+  // console.log('PROPS', this.props)
   const photos = this.props.photos;
+  const userId = this.props.userId;
+  const userName = this.props.userName;
   return (
         <div className="mdl-grid portfolio-max-width">
             <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%'}}>
                 <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Hi!</CardTitle>
                 <CardText>
-                    Choose an image to upload
+                    <Textfield
+                        onChange={(event) => {
+                            console.log('VAL', event.target.value)
+                            this.setState({
+                             uploadTitle: event.target.value
+                            })
+                        }}
+                        label="Provide an image title here!"
+                        floatingLabel
+                        style={{width: '200px'}}
+                    />
                 </CardText>
                 <CardActions border>
                     <ReactS3Uploader
                       signingUrl="/s3/sign"
                       signingUrlMethod="GET"
                       accept="image/*"
+                      onError={this.onUploadError}
                       onFinish={this.onUploadFinish}
                       // signingUrlHeaders={{ headers: {
                       // 'Access-Control-Allow-Origin': '*' }}}
@@ -32,7 +51,7 @@ class UserHomeContainer extends React.Component {
                       uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}  // this is the default
                       contentDisposition="auto"
                       scrubFilename={(filename) => filename.replace(/[^\w\d_\-\.]+/ig, '')}
-                      server="http://localhost:8080" />
+                      server = {HOST} />
                 </CardActions>
             </Card>
             {
@@ -53,22 +72,42 @@ class UserHomeContainer extends React.Component {
   );
 }
 
+onUploadError(err){
+  console.error('UPLOAD ERROR:',err)
+}
+
+
 onUploadFinish(photo){
-  console.log('PHOTO',photo)
-  //this.props.upload(photo);
+
+
+  const newPhoto = {
+    title: this.state.uploadTitle,
+    link: HOST.concat(photo.publicUrl),
+    userId: this.props.userId
+    };
+    console.log('STATE',this.state)
+    console.log('NEW PHOTO', newPhoto)
+    this.props.upload(newPhoto);
+
+    this.setState({
+        uploadTitle: ''
+    })
+    // event.target.email.value = '';
 }
 }
 
 // Container //
 
-const mapState = ({ userPosts }) => ({
-    photos: userPosts.photoInfo
+const mapState = ({ userPosts, user }) => ({
+    photos: userPosts.photoInfo,
+    userId: user.id,
+    userName: user.email
 });
 
 const mapDispatch = dispatch => ({
-//   upload () {
-//     dispatch(sendUploadedPhoto());
-//   }
+  upload (photo) {
+    dispatch(storeUploadedPhoto(photo));
+  }
 });
 
 export default connect(mapState, mapDispatch)(UserHomeContainer);

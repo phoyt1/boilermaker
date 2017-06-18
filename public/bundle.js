@@ -6468,7 +6468,7 @@ module.exports = __webpack_require__(167);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchUserPhotoInfo = undefined;
+exports.storeUploadedPhoto = exports.addPhoto = exports.fetchUserPhotoInfo = undefined;
 exports.default = reducer;
 
 var _axios = __webpack_require__(59);
@@ -6479,11 +6479,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* -----------------    ACTIONS     ------------------ */
 var FETCH_USER_PHOTO_INFO = 'FETCH_USER_PHOTO_INFO';
+var ADD_USER_PHOTO = 'ADD_USER_PHOTO';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-var fetchUserPhotoInfo = exports.fetchUserPhotoInfo = function fetchUserPhotoInfo(urls) {
-  return { type: FETCH_USER_PHOTO_INFO, urls: urls };
+var fetchUserPhotoInfo = exports.fetchUserPhotoInfo = function fetchUserPhotoInfo(photoInfo) {
+  return { type: FETCH_USER_PHOTO_INFO, photoInfo: photoInfo };
+};
+
+var addPhoto = exports.addPhoto = function addPhoto(photo) {
+  return { type: ADD_USER_PHOTO, photo: photo };
 };
 
 /* ------------       REDUCER     ------------------ */
@@ -6498,7 +6503,11 @@ function reducer() {
   switch (action.type) {
 
     case FETCH_USER_PHOTO_INFO:
-      newState.photoInfo = action.urls;
+      newState.photoInfo = action.photoInfo;
+      break;
+
+    case ADD_USER_PHOTO:
+      newState.photoInfo = state.photoInfo.concat(action.photo);
       break;
 
     default:
@@ -6510,13 +6519,15 @@ function reducer() {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-// export const sendUploadedPhoto = (photo) => dispatch => {
-//   axios.post('/s3')
-//        .then(foundStudent => {
-//          dispatch(getStudent(foundStudent.data))
-//         })
-//         .catch(err => console.error(err));
-// }
+var storeUploadedPhoto = exports.storeUploadedPhoto = function storeUploadedPhoto(photo) {
+  return function (dispatch) {
+    _axios2.default.post('/api/photos', photo).then(function (createdPhoto) {
+      dispatch(addPhoto(createdPhoto.data));
+    }).catch(function (err) {
+      return console.error(err);
+    });
+  };
+};
 
 /***/ }),
 /* 61 */
@@ -18952,6 +18963,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var ReactS3Uploader = __webpack_require__(369);
 
+var HOST = window.location.protocol.concat("//").concat(window.location.host);
+
 var UserHomeContainer = function (_React$Component) {
     _inherits(UserHomeContainer, _React$Component);
 
@@ -18960,14 +18973,23 @@ var UserHomeContainer = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (UserHomeContainer.__proto__ || Object.getPrototypeOf(UserHomeContainer)).call(this, props));
 
+        _this.state = {
+            uploadTitle: ''
+        };
         _this.onUploadFinish = _this.onUploadFinish.bind(_this);
+        _this.onUploadError = _this.onUploadError.bind(_this);
         return _this;
     }
 
     _createClass(UserHomeContainer, [{
         key: 'render',
         value: function render(props) {
+            var _this2 = this;
+
+            // console.log('PROPS', this.props)
             var photos = this.props.photos;
+            var userId = this.props.userId;
+            var userName = this.props.userName;
             return _react2.default.createElement(
                 'div',
                 { className: 'mdl-grid portfolio-max-width' },
@@ -18982,7 +19004,17 @@ var UserHomeContainer = function (_React$Component) {
                     _react2.default.createElement(
                         _reactMdl.CardText,
                         null,
-                        'Choose an image to upload'
+                        _react2.default.createElement(_reactMdl.Textfield, {
+                            onChange: function onChange(event) {
+                                console.log('VAL', event.target.value);
+                                _this2.setState({
+                                    uploadTitle: event.target.value
+                                });
+                            },
+                            label: 'Provide an image title here!',
+                            floatingLabel: true,
+                            style: { width: '200px' }
+                        })
                     ),
                     _react2.default.createElement(
                         _reactMdl.CardActions,
@@ -18991,6 +19023,7 @@ var UserHomeContainer = function (_React$Component) {
                             signingUrl: '/s3/sign',
                             signingUrlMethod: 'GET',
                             accept: 'image/*',
+                            onError: this.onUploadError,
                             onFinish: this.onUploadFinish
                             // signingUrlHeaders={{ headers: {
                             // 'Access-Control-Allow-Origin': '*' }}}
@@ -19000,7 +19033,7 @@ var UserHomeContainer = function (_React$Component) {
                             scrubFilename: function scrubFilename(filename) {
                                 return filename.replace(/[^\w\d_\-\.]+/ig, '');
                             },
-                            server: 'http://localhost:8080' })
+                            server: HOST })
                     )
                 ),
                 photos.map(function (photo) {
@@ -19022,10 +19055,27 @@ var UserHomeContainer = function (_React$Component) {
             );
         }
     }, {
+        key: 'onUploadError',
+        value: function onUploadError(err) {
+            console.error('UPLOAD ERROR:', err);
+        }
+    }, {
         key: 'onUploadFinish',
         value: function onUploadFinish(photo) {
-            console.log('PHOTO', photo
-            //this.props.upload(photo);
+
+            var newPhoto = {
+                title: this.state.uploadTitle,
+                link: HOST.concat(photo.publicUrl),
+                userId: this.props.userId
+            };
+            console.log('STATE', this.state);
+            console.log('NEW PHOTO', newPhoto);
+            this.props.upload(newPhoto);
+
+            this.setState({
+                uploadTitle: ''
+            }
+            // event.target.email.value = '';
             );
         }
     }]);
@@ -19036,17 +19086,20 @@ var UserHomeContainer = function (_React$Component) {
 // Container //
 
 var mapState = function mapState(_ref) {
-    var userPosts = _ref.userPosts;
+    var userPosts = _ref.userPosts,
+        user = _ref.user;
     return {
-        photos: userPosts.photoInfo
+        photos: userPosts.photoInfo,
+        userId: user.id,
+        userName: user.email
     };
 };
 
 var mapDispatch = function mapDispatch(dispatch) {
     return {
-        //   upload () {
-        //     dispatch(sendUploadedPhoto());
-        //   }
+        upload: function upload(photo) {
+            dispatch((0, _userPosts.storeUploadedPhoto)(photo));
+        }
     };
 };
 

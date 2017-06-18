@@ -2,11 +2,15 @@ import axios from 'axios';
 
 /* -----------------    ACTIONS     ------------------ */
 const FETCH_USER_PHOTO_INFO = 'FETCH_USER_PHOTO_INFO';
+const ADD_USER_PHOTO = 'ADD_USER_PHOTO';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const fetchUserPhotoInfo  = (urls) => {
-  return {type: FETCH_USER_PHOTO_INFO, urls} };
+export const fetchUserPhotoInfo  = (photoInfo) => {
+  return {type: FETCH_USER_PHOTO_INFO, photoInfo} };
+
+export const addPhoto  = (photo) => {
+  return {type: ADD_USER_PHOTO, photo} };
 
 /* ------------       REDUCER     ------------------ */
 const initialState = {
@@ -17,7 +21,11 @@ export default function reducer (state = initialState, action) {
   switch (action.type) {
 
     case FETCH_USER_PHOTO_INFO:
-      newState.photoInfo = action.urls
+      newState.photoInfo = action.photoInfo
+      break;
+
+    case ADD_USER_PHOTO:
+      newState.photoInfo = state.photoInfo.concat(action.photo)
       break;
 
     default:
@@ -31,10 +39,10 @@ export default function reducer (state = initialState, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-// export const sendUploadedPhoto = (photo) => dispatch => {
-//   axios.post('/s3')
-//        .then(foundStudent => {
-//          dispatch(getStudent(foundStudent.data))
-//         })
-//         .catch(err => console.error(err));
-// }
+export const storeUploadedPhoto = (photo) => dispatch => {
+  axios.post('/api/photos', photo)
+       .then(createdPhoto => {
+         dispatch(addPhoto(createdPhoto.data))
+        })
+        .catch(err => console.error(err));
+}
