@@ -15,7 +15,7 @@ const Main = props => {
   return (
     <div>
     <div style={{height: '300px', position: 'relative'}}>
-      <Layout fixedHeader style={{background: 'url(nav_background.jpg) center / cover'}}>
+      <Layout fixedHeader className="is-casting-shadow" style={{background: 'url(nav_background.jpg) center / cover'}}>
         <Header transparent className="portfolio-navigation-row" title="Photographer" style={{color: 'white'}}>
         </Header>
 

@@ -4213,7 +4213,8 @@ input.mdl-button[type="submit"] {
   position: relative;
   background: rgb(255,255,255);
   border-radius: 2px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  margin: 10px; }
 
 .mdl-card__media {
   background-color: rgb(255,64,129);
