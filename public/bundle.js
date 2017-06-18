@@ -18975,19 +18975,22 @@ var UserHomeContainer = function (_React$Component) {
 
         _this.state = {
             uploadTitle: ''
+
         };
+
         _this.onUploadFinish = _this.onUploadFinish.bind(_this);
         _this.onUploadError = _this.onUploadError.bind(_this);
+        _this.onTitleChange = _this.onTitleChange.bind(_this);
         return _this;
     }
 
     _createClass(UserHomeContainer, [{
         key: 'render',
         value: function render(props) {
-            var _this2 = this;
-
-            // console.log('PROPS', this.props)
             var photos = this.props.photos;
+            photos = photos.sort(function (a, b) {
+                return b.id - a.id;
+            });
             var userId = this.props.userId;
             var userName = this.props.userName;
             return _react2.default.createElement(
@@ -19005,13 +19008,9 @@ var UserHomeContainer = function (_React$Component) {
                         _reactMdl.CardText,
                         null,
                         _react2.default.createElement(_reactMdl.Textfield, {
-                            onChange: function onChange(event) {
-                                console.log('VAL', event.target.value);
-                                _this2.setState({
-                                    uploadTitle: event.target.value
-                                });
-                            },
+                            onChange: this.onTitleChange,
                             label: 'Provide an image title here!',
+                            value: this.state.uploadTitle || 'my image',
                             floatingLabel: true,
                             style: { width: '200px' }
                         })
@@ -19043,7 +19042,7 @@ var UserHomeContainer = function (_React$Component) {
                         _react2.default.createElement(_reactMdl.CardTitle, { expand: true }),
                         _react2.default.createElement(
                             _reactMdl.CardActions,
-                            { style: { height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)' } },
+                            { style: { height: '52px', padding: '16px', background: 'rgba(0,0,0,0.4)' } },
                             _react2.default.createElement(
                                 'span',
                                 { style: { color: '#fff', fontSize: '14px', fontWeight: '500' } },
@@ -19055,6 +19054,13 @@ var UserHomeContainer = function (_React$Component) {
             );
         }
     }, {
+        key: 'onTitleChange',
+        value: function onTitleChange(event) {
+            this.setState({
+                uploadTitle: event.target.value
+            });
+        }
+    }, {
         key: 'onUploadError',
         value: function onUploadError(err) {
             console.error('UPLOAD ERROR:', err);
@@ -19062,9 +19068,8 @@ var UserHomeContainer = function (_React$Component) {
     }, {
         key: 'onUploadFinish',
         value: function onUploadFinish(photo) {
-
             var newPhoto = {
-                title: this.state.uploadTitle,
+                title: this.state.uploadTitle || 'my image',
                 link: HOST.concat(photo.publicUrl),
                 userId: this.props.userId
             };
@@ -19074,9 +19079,7 @@ var UserHomeContainer = function (_React$Component) {
 
             this.setState({
                 uploadTitle: ''
-            }
-            // event.target.email.value = '';
-            );
+            });
         }
     }]);
 
@@ -19109,98 +19112,6 @@ exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(UserHomeContai
 // onError={this.onUploadError}
 //
 // signingUrlQueryParams={{ additional: query-params }}
-
-
-// <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-//     <CardTitle expand />
-//     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-//         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-//             Image.jpg
-//         </span>
-//     </CardActions>
-// </Card>
-// <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-//     <CardTitle expand />
-//     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-//         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-//             Image.jpg
-//         </span>
-//     </CardActions>
-// </Card>
-
-
-// <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">
-//                     text
-//                   </a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work07.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Sunt nulla</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work02.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Android.com website</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//             </div>
 
 /***/ }),
 /* 190 */
@@ -19254,8 +19165,6 @@ var requireLogin = function requireLogin(nextRouterState, replace, next) {
 };
 
 var getUserPhotoInfo = function getUserPhotoInfo() {
-  console.log("HERE!!@3");
-
   var _store$getState2 = _store2.default.getState(),
       user = _store$getState2.user;
 
@@ -19282,7 +19191,7 @@ _reactDom2.default.render(_react2.default.createElement(
         _reactRouter.Route,
         { onEnter: requireLogin },
         _react2.default.createElement(_reactRouter.Route, { path: 'home', onEnter: getUserPhotoInfo, component: _components.UserHomeContainer }),
-        _react2.default.createElement(_reactRouter.Route, { path: '/s3/sign', component: _components.UserHomeContainer })
+        _react2.default.createElement(_reactRouter.Route, { path: 'user/:id', component: _components.UserHomeContainer })
       )
     )
   )

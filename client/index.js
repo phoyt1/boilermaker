@@ -22,7 +22,6 @@ const requireLogin = (nextRouterState, replace, next) =>
     .catch(err => console.log(err));
 
 const getUserPhotoInfo = function(){
-  console.log("HERE!!@3")
   const { user } = store.getState();
   axios.get(`/api/photos/${user.id}`)
     .then(foundUrls => {
@@ -40,7 +39,7 @@ ReactDOM.render(
         <Route path="signup" component={Signup} />
         <Route onEnter={requireLogin}>
           <Route path="home" onEnter={getUserPhotoInfo} component={UserHomeContainer} />
-          <Route path="/s3/sign" component={UserHomeContainer} />
+          <Route path="user/:id" component={UserHomeContainer} />
         </Route>
       </Route>
     </Router>

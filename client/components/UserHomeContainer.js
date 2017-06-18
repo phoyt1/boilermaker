@@ -11,14 +11,19 @@ class UserHomeContainer extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-        uploadTitle: ''
+        uploadTitle: '',
+
     }
+
   this.onUploadFinish = this.onUploadFinish.bind(this);
   this.onUploadError = this.onUploadError.bind(this);
+  this.onTitleChange = this.onTitleChange.bind(this);
   }
   render(props){
-  // console.log('PROPS', this.props)
-  const photos = this.props.photos;
+  var photos = this.props.photos;
+  photos = photos.sort(function (a, b) {
+  return b.id - a.id;
+  })
   const userId = this.props.userId;
   const userName = this.props.userName;
   return (
@@ -27,13 +32,9 @@ class UserHomeContainer extends React.Component {
                 <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Hi!</CardTitle>
                 <CardText>
                     <Textfield
-                        onChange={(event) => {
-                            console.log('VAL', event.target.value)
-                            this.setState({
-                             uploadTitle: event.target.value
-                            })
-                        }}
+                        onChange={this.onTitleChange}
                         label="Provide an image title here!"
+                        value = {this.state.uploadTitle || 'my image'}
                         floatingLabel
                         style={{width: '200px'}}
                     />
@@ -59,7 +60,7 @@ class UserHomeContainer extends React.Component {
                     return (
                         <Card key={photo.id} shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'marginBottom':'3%', background: `url(${photo.link}) center / cover`}}>
                             <CardTitle expand />
-                            <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
+                            <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.4)'}}>
                                 <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
                                     {photo.title}
                                 </span>
@@ -72,16 +73,21 @@ class UserHomeContainer extends React.Component {
   );
 }
 
+onTitleChange(event){
+    this.setState({
+        uploadTitle: event.target.value
+    })
+}
+
+
 onUploadError(err){
   console.error('UPLOAD ERROR:',err)
 }
 
 
 onUploadFinish(photo){
-
-
   const newPhoto = {
-    title: this.state.uploadTitle,
+    title: this.state.uploadTitle || 'my image',
     link: HOST.concat(photo.publicUrl),
     userId: this.props.userId
     };
@@ -92,7 +98,6 @@ onUploadFinish(photo){
     this.setState({
         uploadTitle: ''
     })
-    // event.target.email.value = '';
 }
 }
 
@@ -116,95 +121,3 @@ export default connect(mapState, mapDispatch)(UserHomeContainer);
       // onError={this.onUploadError}
     //
     // signingUrlQueryParams={{ additional: query-params }}
-
-
-            // <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-            //     <CardTitle expand />
-            //     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-            //         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-            //             Image.jpg
-            //         </span>
-            //     </CardActions>
-            // </Card>
-            // <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-            //     <CardTitle expand />
-            //     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-            //         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-            //             Image.jpg
-            //         </span>
-            //     </CardActions>
-            // </Card>
-
-
-// <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">
-//                     text
-//                   </a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work01.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Blog template</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work07.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Sunt nulla</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//           </div>
-//           <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
-//               <div className="mdl-card__media">
-//                   <img className="article-image" src=" images/example-work02.jpg"  alt="" />
-//               </div>
-//               <div className="mdl-card__title">
-//                   <h2 className="mdl-card__title-text">Android.com website</h2>
-//               </div>
-//               <div className="mdl-card__supporting-text">
-//                   Enim labore aliqua consequat ut quis ad occaecat aliquip incididunt. Sunt nulla eu enim irure enim nostrud aliqua consectetur ad consectetur sunt ullamco officia. Ex officia laborum et consequat duis.
-//               </div>
-//               <div className="mdl-card__actions mdl-card--border">
-//                   <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="portfolio-example01.html">Read more</a>
-//               </div>
-//             </div>
