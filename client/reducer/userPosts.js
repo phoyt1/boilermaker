@@ -1,31 +1,23 @@
 import axios from 'axios';
 
 /* -----------------    ACTIONS     ------------------ */
-const GET_ALL_STUDENTS = 'GET_ALL_STUDENTS';
+const FETCH_USER_PHOTO_INFO = 'FETCH_USER_PHOTO_INFO';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-export const getAllStudents  = (students) => {
-  return {type: GET_ALL_STUDENTS, students} };
+export const fetchUserPhotoInfo  = (urls) => {
+  return {type: FETCH_USER_PHOTO_INFO, urls} };
 
 /* ------------       REDUCER     ------------------ */
 const initialState = {
-  studentArr: [],
-  selectedStudent: {
-    campus: {
-      image: '',
-      name: ''
-    },
-    name: '',
-    email: ''
-  }
+  photoInfo: []
 };
 export default function reducer (state = initialState, action) {
   var newState = Object.assign({}, state);
   switch (action.type) {
 
-    case GET_ALL_STUDENTS:
-      newState.studentArr = action.students
+    case FETCH_USER_PHOTO_INFO:
+      newState.photoInfo = action.urls
       break;
 
     default:
@@ -39,10 +31,10 @@ export default function reducer (state = initialState, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const sendUploadedPhoto = (photo) => dispatch => {
-  axios.post('/s3')
-       .then(foundStudent => {
-         dispatch(getStudent(foundStudent.data))
-        })
-        .catch(err => console.error(err));
-}
+// export const sendUploadedPhoto = (photo) => dispatch => {
+//   axios.post('/s3')
+//        .then(foundStudent => {
+//          dispatch(getStudent(foundStudent.data))
+//         })
+//         .catch(err => console.error(err));
+// }

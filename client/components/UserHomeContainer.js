@@ -7,19 +7,18 @@ var ReactS3Uploader = require('react-s3-uploader');
 import { Card, CardTitle, CardActions, CardText, Button } from 'react-mdl';
 
 class UserHomeContainer extends React.Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
   this.onUploadFinish = this.onUploadFinish.bind(this)
   }
-  render(){
-  //const { children, handleClick, loggedIn } = props;
+  render(props){
+  const photos = this.props.photos;
   return (
         <div className="mdl-grid portfolio-max-width">
             <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%'}}>
-                <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Update</CardTitle>
+                <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Hi!</CardTitle>
                 <CardText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Aenan convallis.
+                    Choose an image to upload
                 </CardText>
                 <CardActions border>
                     <ReactS3Uploader
@@ -36,30 +35,20 @@ class UserHomeContainer extends React.Component {
                       server="http://localhost:8080" />
                 </CardActions>
             </Card>
-            <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-                <CardTitle expand />
-                <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-                    <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-                        Image.jpg
-                    </span>
-                </CardActions>
-            </Card>
-            <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-                <CardTitle expand />
-                <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-                    <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-                        Image.jpg
-                    </span>
-                </CardActions>
-            </Card>
-            <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
-                <CardTitle expand />
-                <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
-                    <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
-                        Image.jpg
-                    </span>
-                </CardActions>
-            </Card>
+            {
+                photos.map(photo => {
+                    return (
+                        <Card key={photo.id} shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'marginBottom':'3%', background: `url(${photo.link}) center / cover`}}>
+                            <CardTitle expand />
+                            <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
+                                <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
+                                    {photo.title}
+                                </span>
+                            </CardActions>
+                        </Card>
+                    )
+                })
+            }
         </div>
   );
 }
@@ -72,23 +61,40 @@ onUploadFinish(photo){
 
 // Container //
 
-const mapState = () => ({
-
+const mapState = ({ userPosts }) => ({
+    photos: userPosts.photoInfo
 });
 
 const mapDispatch = dispatch => ({
-  upload () {
-    dispatch(sendUploadedPhoto());
-  }
+//   upload () {
+//     dispatch(sendUploadedPhoto());
+//   }
 });
 
-export default connect(null, mapDispatch)(UserHomeContainer);
+export default connect(mapState, mapDispatch)(UserHomeContainer);
       // preprocess={this.onUploadStart}
       // onProgress={this.onUploadProgress}
       // onError={this.onUploadError}
     //
     // signingUrlQueryParams={{ additional: query-params }}
 
+
+            // <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
+            //     <CardTitle expand />
+            //     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
+            //         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
+            //             Image.jpg
+            //         </span>
+            //     </CardActions>
+            // </Card>
+            // <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%', background: 'url(http://www.getmdl.io/assets/demos/image_card.jpg) center / cover'}}>
+            //     <CardTitle expand />
+            //     <CardActions style={{height: '52px', padding: '16px', background: 'rgba(0,0,0,0.2)'}}>
+            //         <span style={{color: '#fff', fontSize: '14px', fontWeight: '500'}}>
+            //             Image.jpg
+            //         </span>
+            //     </CardActions>
+            // </Card>
 
 
 // <div className="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">

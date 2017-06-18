@@ -7,6 +7,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import store from './store';
 import { Main, Login, Signup, UserHome, UserHomeContainer } from './components';
 import { me } from './reducer/user';
+import { fetchUserPhotoInfo } from './reducer/userPosts'
 import axios from 'axios';
 
 const whoAmI = store.dispatch(me());
@@ -20,10 +21,14 @@ const requireLogin = (nextRouterState, replace, next) =>
     })
     .catch(err => console.log(err));
 
-const userUpload = function(){
+const getUserPhotoInfo = function(){
   console.log("HERE!!@3")
-  axios.get('/s3')
-    .catch(err => console.error(err));
+  const { user } = store.getState();
+  axios.get(`/api/photos/${user.id}`)
+    .then(foundUrls => {
+      store.dispatch(fetchUserPhotoInfo(foundUrls.data));
+    })
+    .catch(err => {console.error(err)})
 }
 
 ReactDOM.render(
@@ -34,8 +39,8 @@ ReactDOM.render(
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route onEnter={requireLogin}>
-          <Route path="home" component={UserHomeContainer} />
-          <Route path="/s3/sign" onEnter={userUpload} component={UserHomeContainer} />
+          <Route path="home" onEnter={getUserPhotoInfo} component={UserHomeContainer} />
+          <Route path="/s3/sign" component={UserHomeContainer} />
         </Route>
       </Route>
     </Router>
