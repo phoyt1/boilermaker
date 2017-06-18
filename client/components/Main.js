@@ -21,9 +21,7 @@ const Main = props => {
 
         <Drawer title="Photographer">
             <Navigation>
-                <a href="#">Link</a>
-                <a href="#">Link</a>
-                <a href="#">Link</a>
+                <Link to="/search">Other Users</Link>
                 { loggedIn
                   ? <a href="#" onClick={handleClick}>Logout</a>
                   : null

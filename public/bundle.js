@@ -6468,7 +6468,7 @@ module.exports = __webpack_require__(167);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.storeUploadedPhoto = exports.addPhoto = exports.fetchUserPhotoInfo = undefined;
+exports.storeUploadedPhoto = exports.addPhoto = exports.fetchOtherUserPhotoInfo = exports.fetchUserPhotoInfo = undefined;
 exports.default = reducer;
 
 var _axios = __webpack_require__(59);
@@ -6479,6 +6479,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* -----------------    ACTIONS     ------------------ */
 var FETCH_USER_PHOTO_INFO = 'FETCH_USER_PHOTO_INFO';
+var FETCH_OTHER_USER_PHOTO_INFO = 'FETCH_OTHER_USER_PHOTO_INFO';
 var ADD_USER_PHOTO = 'ADD_USER_PHOTO';
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -6487,13 +6488,18 @@ var fetchUserPhotoInfo = exports.fetchUserPhotoInfo = function fetchUserPhotoInf
   return { type: FETCH_USER_PHOTO_INFO, photoInfo: photoInfo };
 };
 
+var fetchOtherUserPhotoInfo = exports.fetchOtherUserPhotoInfo = function fetchOtherUserPhotoInfo(photoInfo) {
+  return { type: FETCH_OTHER_USER_PHOTO_INFO, photoInfo: photoInfo };
+};
+
 var addPhoto = exports.addPhoto = function addPhoto(photo) {
   return { type: ADD_USER_PHOTO, photo: photo };
 };
 
 /* ------------       REDUCER     ------------------ */
 var initialState = {
-  photoInfo: []
+  photoInfo: [],
+  otherUserPhotoInfo: []
 };
 function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -6504,6 +6510,10 @@ function reducer() {
 
     case FETCH_USER_PHOTO_INFO:
       newState.photoInfo = action.photoInfo;
+      break;
+
+    case FETCH_OTHER_USER_PHOTO_INFO:
+      newState.otherUserPhotoInfo = action.photoInfo;
       break;
 
     case ADD_USER_PHOTO:
@@ -17586,6 +17596,15 @@ Object.defineProperty(exports, 'UserHomeContainer', {
   }
 });
 
+var _UserSearchContainer = __webpack_require__(399);
+
+Object.defineProperty(exports, 'UserSearchContainer', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_UserSearchContainer).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
@@ -18803,19 +18822,9 @@ var Main = function Main(props) {
             _reactMdl.Navigation,
             null,
             _react2.default.createElement(
-              'a',
-              { href: '#' },
-              'Link'
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: '#' },
-              'Link'
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: '#' },
-              'Link'
+              _reactRouter.Link,
+              { to: '/search' },
+              'Other Users'
             ),
             loggedIn ? _react2.default.createElement(
               'a',
@@ -19144,6 +19153,8 @@ var _user = __webpack_require__(37);
 
 var _userPosts = __webpack_require__(60);
 
+var _users = __webpack_require__(398);
+
 var _axios = __webpack_require__(59);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -19175,6 +19186,23 @@ var getUserPhotoInfo = function getUserPhotoInfo() {
   });
 };
 
+var getOtherUserPhotoInfo = function getOtherUserPhotoInfo(nextRouterState) {
+  var otherUserId = nextRouterState.params.id;
+  _axios2.default.get('/api/photos/' + otherUserId).then(function (foundUrls) {
+    _store2.default.dispatch((0, _userPosts.fetchOtherUserPhotoInfo)(foundUrls.data));
+  }).catch(function (err) {
+    console.error(err);
+  });
+};
+
+var getUsers = function getUsers() {
+  _axios2.default.get('/api/users').then(function (foundUsers) {
+    _store2.default.dispatch((0, _users.fetchAllUsers)(foundUsers.data));
+  }).catch(function (err) {
+    console.error(err);
+  });
+};
+
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
@@ -19184,14 +19212,15 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(
       _reactRouter.Route,
       { path: '/', component: _components.Main },
-      _react2.default.createElement(_reactRouter.IndexRoute, { component: _components.Login }),
       _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _components.Login }),
       _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _components.Signup }),
       _react2.default.createElement(
         _reactRouter.Route,
         { onEnter: requireLogin },
         _react2.default.createElement(_reactRouter.Route, { path: 'home', onEnter: getUserPhotoInfo, component: _components.UserHomeContainer }),
-        _react2.default.createElement(_reactRouter.Route, { path: 'user/:id', component: _components.UserHomeContainer })
+        _react2.default.createElement(_reactRouter.Route, { path: '/search', onEnter: getUsers, component: _components.UserSearchContainer }),
+        _react2.default.createElement(_reactRouter.Route, { path: '/search/:id', onEnter: getOtherUserPhotoInfo, component: _components.OtherUserContainer }),
+        _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/home' })
       )
     )
   )
@@ -19218,9 +19247,13 @@ var _userPosts = __webpack_require__(60);
 
 var _userPosts2 = _interopRequireDefault(_userPosts);
 
+var _users = __webpack_require__(398);
+
+var _users2 = _interopRequireDefault(_users);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _redux.combineReducers)({ user: _user2.default, userPosts: _userPosts2.default });
+exports.default = (0, _redux.combineReducers)({ user: _user2.default, userPosts: _userPosts2.default, users: _users2.default });
 
 /***/ }),
 /* 192 */
@@ -41092,6 +41125,134 @@ function symbolObservablePonyfill(root) {
 
 	return result;
 };
+
+/***/ }),
+/* 398 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// import axios from 'axios';
+
+/* -----------------    ACTIONS     ------------------ */
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = reducer;
+var FETCH_ALL_USERS = 'FETCH_ALL_USERS';
+
+/* ------------   ACTION CREATORS     ------------------ */
+
+var fetchAllUsers = exports.fetchAllUsers = function fetchAllUsers(users) {
+  return { type: FETCH_ALL_USERS, users: users };
+};
+
+/* ------------       REDUCER     ------------------ */
+var initialState = {
+  allUsers: []
+};
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  var newState = Object.assign({}, state);
+  switch (action.type) {
+
+    case FETCH_ALL_USERS:
+      newState.allUsers = action.users;
+      break;
+
+    default:
+      newState = state;
+  }
+
+  return newState;
+}
+
+/* ------------       DISPATCHERS     ------------------ */
+
+// export const storeUploadedPhoto = (photo) => dispatch => {
+//   axios.post('/api/photos', photo)
+//        .then(createdPhoto => {
+//          dispatch(addPhoto(createdPhoto.data))
+//         })
+//         .catch(err => console.error(err));
+// }
+
+/***/ }),
+/* 399 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(26);
+
+var _reactRedux = __webpack_require__(25);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//import { Card, CardTitle, CardActions, CardText, Textfield, Button } from 'react-mdl';
+
+var UserSearchContainer = function (_React$Component) {
+  _inherits(UserSearchContainer, _React$Component);
+
+  function UserSearchContainer(props) {
+    _classCallCheck(this, UserSearchContainer);
+
+    return _possibleConstructorReturn(this, (UserSearchContainer.__proto__ || Object.getPrototypeOf(UserSearchContainer)).call(this, props));
+  }
+
+  _createClass(UserSearchContainer, [{
+    key: 'render',
+    value: function render(props) {
+      console.log('PROPS', this.props);
+      return _react2.default.createElement(
+        'p',
+        null,
+        'Users will be listed here'
+      );
+    }
+  }]);
+
+  return UserSearchContainer;
+}(_react2.default.Component);
+
+// Container //
+
+var mapState = function mapState(_ref) {
+  var users = _ref.users;
+  return {
+    allUsers: users.allUsers
+  };
+};
+
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    // upload (photo) {
+    //   dispatch(storeUploadedPhoto(photo));
+    // }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapState, null)(UserSearchContainer);
 
 /***/ })
 /******/ ]);

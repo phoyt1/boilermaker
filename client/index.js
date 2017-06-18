@@ -3,11 +3,12 @@ import './index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
 import store from './store';
-import { Main, Login, Signup, UserHome, UserHomeContainer } from './components';
+import { Main, Login, Signup, UserHome, UserHomeContainer, OtherUserContainer, UserSearchContainer } from './components';
 import { me } from './reducer/user';
-import { fetchUserPhotoInfo } from './reducer/userPosts'
+import { fetchUserPhotoInfo, fetchOtherUserPhotoInfo } from './reducer/userPosts'
+import { fetchAllUsers } from './reducer/users'
 import axios from 'axios';
 
 const whoAmI = store.dispatch(me());
@@ -30,16 +31,34 @@ const getUserPhotoInfo = function(){
     .catch(err => {console.error(err)})
 }
 
+const getOtherUserPhotoInfo = function(nextRouterState){
+  const otherUserId = nextRouterState.params.id;
+  axios.get(`/api/photos/${otherUserId}`)
+    .then(foundUrls => {
+      store.dispatch(fetchOtherUserPhotoInfo(foundUrls.data));
+    })
+    .catch(err => {console.error(err)})
+}
+
+const getUsers = function(){
+  axios.get(`/api/users`)
+    .then(foundUsers => {
+      store.dispatch(fetchAllUsers(foundUsers.data));
+    })
+    .catch(err => {console.error(err)})
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={Main}>
-        <IndexRoute component={Login} />
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route onEnter={requireLogin}>
           <Route path="home" onEnter={getUserPhotoInfo} component={UserHomeContainer} />
-          <Route path="user/:id" component={UserHomeContainer} />
+          <Route path="/search" onEnter={getUsers} component={UserSearchContainer} />
+          <Route path="/search/:id" onEnter={getOtherUserPhotoInfo} component={OtherUserContainer} />
+          <IndexRedirect to="/home" />
         </Route>
       </Route>
     </Router>

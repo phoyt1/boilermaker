@@ -9,6 +9,7 @@ router.get('/:userId', (req, res, next) => {
     .catch(next);
 });
 
+
 // const testPhoto = {
 //   description: "Hardcoded description",
 //   link: "http://localhost/s3/uploads/f7c7616b-b479-467d-b9e6-c18676026144_bfx.png",
