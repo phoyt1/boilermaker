@@ -34,21 +34,6 @@ const createApp = () => app
   }))
   .use(passport.initialize())
   .use(passport.session())
-//   .use(function(req, res, next) {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-//     //intercepts OPTIONS method
-//     if ('OPTIONS' === req.method) {
-//       //respond with 200
-//       res.send(200);
-//     }
-//     else {
-//     //move on
-//       next();
-//     }
-// })
   .use('/auth', require('./auth'))
   .use('/api', require('./api'))
   .use('/s3', require('react-s3-uploader/s3router')({
@@ -64,8 +49,8 @@ const createApp = () => app
   .use((err, req, res, next) =>
     res.status(err.status || 500).send(err.message || 'Internal server error.'));
 
-const syncDb = () =>
-  db.sync();
+const syncDb = (force = true) =>
+  db.sync({force});
 
 const listenUp = () =>
   app.listen(PORT, () =>
