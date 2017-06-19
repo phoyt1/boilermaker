@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import { logout } from '../reducer/user';
 import AppHeader from './Header'
 import Login from './Login'
+
 import { Layout, Drawer, Header, Navigation, HeaderRow } from 'react-mdl';
 // Component //
 
@@ -21,6 +22,7 @@ const Main = props => {
 
         <Drawer title="Photographer">
             <Navigation>
+                <Link to="/home">Home</Link>
                 <Link to="/search">Other Users</Link>
                 { loggedIn
                   ? <a href="#" onClick={handleClick}>Logout</a>

@@ -7,4 +7,4 @@ export { default as UserHomeContainer } from './UserHomeContainer.js';
 
 export { default as UserSearchContainer } from './UserSearchContainer.js';
 
-// export { default as OtherUserContainer } from './OtherUserContainer.js';
+export { default as OtherUserContainer } from './OtherUserContainer.js';
