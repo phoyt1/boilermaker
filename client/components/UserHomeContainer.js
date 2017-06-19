@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { storeUploadedPhoto } from '../reducer/userPosts'
 var ReactS3Uploader = require('react-s3-uploader');
-import { Card, CardTitle, CardActions, CardText, Textfield, Button } from 'react-mdl';
+import { Card, CardTitle, CardActions, CardText, Textfield, Spinner } from 'react-mdl';
 const HOST = window.location.protocol.concat("//").concat(window.location.host);
 
 class UserHomeContainer extends React.Component {
@@ -12,12 +12,13 @@ class UserHomeContainer extends React.Component {
     super(props)
     this.state = {
         uploadTitle: '',
-
+        progressFlag: false
     }
 
   this.onUploadFinish = this.onUploadFinish.bind(this);
   this.onUploadError = this.onUploadError.bind(this);
   this.onTitleChange = this.onTitleChange.bind(this);
+  this.onUploadProgress = this.onUploadProgress.bind(this);
   }
   render(props){
   var photos = this.props.photos;
@@ -29,7 +30,7 @@ class UserHomeContainer extends React.Component {
   return (
         <div className="mdl-grid portfolio-max-width">
             <Card shadow={0} className="portfolio-card" style={{width: '300px', height: '320px', margin: 'auto', 'margin-bottom':'3%'}}>
-                <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Hi!</CardTitle>
+                <CardTitle expand style={{color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC'}}>Hi {userName}!</CardTitle>
                 <CardText>
                     <Textfield
                         onChange={this.onTitleChange}
@@ -38,12 +39,16 @@ class UserHomeContainer extends React.Component {
                         floatingLabel
                         style={{width: '200px'}}
                     />
+                    {
+                    this.state.progressFlag ? <Spinner /> : null
+                    }
                 </CardText>
                 <CardActions border>
                     <ReactS3Uploader
                       signingUrl="/s3/sign"
                       signingUrlMethod="GET"
                       accept="image/*"
+                      onProgress={this.onUploadProgress}
                       onError={this.onUploadError}
                       onFinish={this.onUploadFinish}
                       // signingUrlHeaders={{ headers: {
@@ -84,6 +89,11 @@ onUploadError(err){
   console.error('UPLOAD ERROR:',err)
 }
 
+onUploadProgress(){
+    this.setState({
+        progressFlag: true
+    })
+}
 
 onUploadFinish(photo){
   const newPhoto = {
@@ -96,7 +106,8 @@ onUploadFinish(photo){
     this.props.upload(newPhoto);
 
     this.setState({
-        uploadTitle: ''
+        uploadTitle: '',
+        progressFlag: false
     })
 }
 }
@@ -117,7 +128,7 @@ const mapDispatch = dispatch => ({
 
 export default connect(mapState, mapDispatch)(UserHomeContainer);
       // preprocess={this.onUploadStart}
-      // onProgress={this.onUploadProgress}
+      //
       // onError={this.onUploadError}
     //
     // signingUrlQueryParams={{ additional: query-params }}

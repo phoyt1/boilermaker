@@ -19078,13 +19078,14 @@ var UserHomeContainer = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (UserHomeContainer.__proto__ || Object.getPrototypeOf(UserHomeContainer)).call(this, props));
 
         _this.state = {
-            uploadTitle: ''
-
+            uploadTitle: '',
+            progressFlag: false
         };
 
         _this.onUploadFinish = _this.onUploadFinish.bind(_this);
         _this.onUploadError = _this.onUploadError.bind(_this);
         _this.onTitleChange = _this.onTitleChange.bind(_this);
+        _this.onUploadProgress = _this.onUploadProgress.bind(_this);
         return _this;
     }
 
@@ -19106,7 +19107,9 @@ var UserHomeContainer = function (_React$Component) {
                     _react2.default.createElement(
                         _reactMdl.CardTitle,
                         { expand: true, style: { color: '#fff', background: 'url(http://www.getmdl.io/assets/demos/dog.png) bottom right 15% no-repeat #46B6AC' } },
-                        'Hi!'
+                        'Hi ',
+                        userName,
+                        '!'
                     ),
                     _react2.default.createElement(
                         _reactMdl.CardText,
@@ -19117,7 +19120,8 @@ var UserHomeContainer = function (_React$Component) {
                             value: this.state.uploadTitle || 'my image',
                             floatingLabel: true,
                             style: { width: '200px' }
-                        })
+                        }),
+                        this.state.progressFlag ? _react2.default.createElement(_reactMdl.Spinner, null) : null
                     ),
                     _react2.default.createElement(
                         _reactMdl.CardActions,
@@ -19126,6 +19130,7 @@ var UserHomeContainer = function (_React$Component) {
                             signingUrl: '/s3/sign',
                             signingUrlMethod: 'GET',
                             accept: 'image/*',
+                            onProgress: this.onUploadProgress,
                             onError: this.onUploadError,
                             onFinish: this.onUploadFinish
                             // signingUrlHeaders={{ headers: {
@@ -19170,6 +19175,13 @@ var UserHomeContainer = function (_React$Component) {
             console.error('UPLOAD ERROR:', err);
         }
     }, {
+        key: 'onUploadProgress',
+        value: function onUploadProgress() {
+            this.setState({
+                progressFlag: true
+            });
+        }
+    }, {
         key: 'onUploadFinish',
         value: function onUploadFinish(photo) {
             var newPhoto = {
@@ -19182,7 +19194,8 @@ var UserHomeContainer = function (_React$Component) {
             this.props.upload(newPhoto);
 
             this.setState({
-                uploadTitle: ''
+                uploadTitle: '',
+                progressFlag: false
             });
         }
     }]);
@@ -19212,7 +19225,7 @@ var mapDispatch = function mapDispatch(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatch)(UserHomeContainer);
 // preprocess={this.onUploadStart}
-// onProgress={this.onUploadProgress}
+//
 // onError={this.onUploadError}
 //
 // signingUrlQueryParams={{ additional: query-params }}
