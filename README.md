@@ -1,14 +1,14 @@
 # Photographer
 
 
-Photographer is an image sharing appliaction for anyone who signs up for an acount! Users can upload images ans view other user's accounts.
+Photographer is an image sharing appliaction for anyone who signs up for an acount! Users can upload images and view other user's accounts.
 
 ## Setup
 
 * `npm install`, or `yarn install` - whatever you're into
 * Create two postgres databases: `photographer` and `photographer-test`
   * By default, running `npm test` will use `photographer-test`, while regular development uses `photographer`
-* Running the app for the first time will require "Force=true" in the syncDb function.. this creates the models and associations in the DB
+* Running the app for the first time will require `Force=true` in the syncDb function `(server/index.js)`.. this creates the models and associations in the DB
 * I chose to disable Google OAuth so that users create their own username ... but if you wish to checkout the OAuth stuff you can follow these steps:
   * Create a file called `secrets.js` in the project root
   * This file is `.gitignore`'d, and will *only* be required in your *development* environment
