@@ -18861,7 +18861,7 @@ var Main = function Main(props) {
       { style: { height: '300px', position: 'relative' } },
       _react2.default.createElement(
         _reactMdl.Layout,
-        { fixedHeader: true, className: 'is-casting-shadow', style: { background: 'url(nav_background.jpg) center / cover' } },
+        { fixedHeader: true, className: 'is-casting-shadow portfolio-header' },
         _react2.default.createElement(_reactMdl.Header, { transparent: true, className: 'portfolio-navigation-row', title: 'Photographer', style: { color: 'white' } }),
         _react2.default.createElement(
           _reactMdl.Drawer,
@@ -18963,6 +18963,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+//import stylesheet from '../..public/material.css'
 
 var OtherUserContainer = function (_React$Component) {
   _inherits(OtherUserContainer, _React$Component);
@@ -18976,7 +18977,6 @@ var OtherUserContainer = function (_React$Component) {
   _createClass(OtherUserContainer, [{
     key: 'render',
     value: function render(props) {
-      console.log('PROPS', this.props);
       var photoInfo = this.props.state.userPosts.otherUserPhotoInfo;
       if (photoInfo.length) {
         photoInfo = photoInfo.sort(function (a, b) {

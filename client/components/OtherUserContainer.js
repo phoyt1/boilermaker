@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-
+//import stylesheet from '../..public/material.css'
 
 import { Card, CardTitle, CardActions } from 'react-mdl';
 
@@ -11,7 +11,6 @@ class OtherUserContainer extends React.Component {
     super(props)
   }
   render (props) {
-    console.log('PROPS',this.props)
     var photoInfo = this.props.state.userPosts.otherUserPhotoInfo
     if (photoInfo.length) {
       photoInfo = photoInfo.sort(function (a, b) {

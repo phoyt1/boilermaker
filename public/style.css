@@ -8,11 +8,27 @@
 .portfolio-header {
   position: relative;
   background-color: #D8D8D8;
-  background-image: url(nav_background.jpg);
+  /*background-image: url(/nav_background.jpg);
+  background: 'center / cover';*/
+  background: url(nav_background.jpg);
+    background-image: url(nav_background.jpg);
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    background-repeat-x: initial;
+    background-repeat-y: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
 }
 
+
+
+
+
 .portfolio-header .mdl-layout__header-row {
-  padding: 0;
+  /*padding: 0;*/
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
