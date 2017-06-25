@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-//import stylesheet from '../..public/material.css'
 
 import { Card, CardTitle, CardActions } from 'react-mdl';
 
@@ -47,10 +46,10 @@ const mapState = (state) => {
   }
 };
 
-const mapDispatch = dispatch => ({
-  // upload (photo) {
-  //   dispatch(storeUploadedPhoto(photo));
-  // }
-});
+// const mapDispatch = dispatch => ({
+//   // upload (photo) {
+//   //   dispatch(storeUploadedPhoto(photo));
+//   // }
+// });
 
 export default connect(mapState, null)(OtherUserContainer);

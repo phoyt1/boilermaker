@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { logout } from '../reducer/user';
-import AppHeader from './Header'
-import Login from './Login'
 
-import { Layout, Drawer, Header, Navigation, HeaderRow } from 'react-mdl';
+import { Layout, Drawer, Header, Navigation } from 'react-mdl';
+
 // Component //
 
 const Main = props => {
@@ -37,7 +36,7 @@ const Main = props => {
     </div>
   );
 };
-// <script>mdc.autoInit()</script>
+
 Main.propTypes = {
   children: PropTypes.object,
   handleClick: PropTypes.func.isRequired,
@@ -57,21 +56,3 @@ const mapDispatch = dispatch => ({
 });
 
 export default connect(mapState, mapDispatch)(Main);
-
-
-
-// <div>
-//       <h1>BOILERMAKER</h1>
-//       { loggedIn ?
-//           <nav>
-//             <Link to="/home">Home</Link>
-//             <a href="#" onClick={handleClick}>Logout</a>
-//           </nav> :
-//           <nav>
-//             <Link to="/login">Login</Link>
-//             <Link to="/signup">Sign Up</Link>
-//           </nav>
-//       }
-//       <hr />
-//       { children }
-//     </div>

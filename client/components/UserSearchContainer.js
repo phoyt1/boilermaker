@@ -43,10 +43,10 @@ const mapState = ({ users }) => ({
     })
 });
 
-const mapDispatch = dispatch => ({
-  // upload (photo) {
-  //   dispatch(storeUploadedPhoto(photo));
-  // }
-});
+// const mapDispatch = dispatch => ({
+//   // upload (photo) {
+//   //   dispatch(storeUploadedPhoto(photo));
+//   // }
+// });
 
 export default connect(mapState, null)(UserSearchContainer);

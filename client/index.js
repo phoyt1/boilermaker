@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
 import store from './store';
-import { Main, Login, Signup, UserHome, UserHomeContainer, OtherUserContainer, UserSearchContainer } from './components';
+import { Main, Login, Signup, UserHomeContainer, OtherUserContainer, UserSearchContainer } from './components';
 import { me } from './reducer/user';
 import { fetchUserPhotoInfo, fetchOtherUserPhotoInfo } from './reducer/userPosts'
 import { fetchAllUsers } from './reducer/users'

@@ -51,8 +51,6 @@ class UserHomeContainer extends React.Component {
                       onProgress={this.onUploadProgress}
                       onError={this.onUploadError}
                       onFinish={this.onUploadFinish}
-                      // signingUrlHeaders={{ headers: {
-                      // 'Access-Control-Allow-Origin': '*' }}}
                       signingUrlWithCredentials={ true }      // in case when need to pass authentication credentials via CORS
                       uploadRequestHeaders={{ 'x-amz-acl': 'public-read' }}  // this is the default
                       contentDisposition="auto"
@@ -127,8 +125,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default connect(mapState, mapDispatch)(UserHomeContainer);
-      // preprocess={this.onUploadStart}
-      //
-      // onError={this.onUploadError}
-    //
-    // signingUrlQueryParams={{ additional: query-params }}
+
