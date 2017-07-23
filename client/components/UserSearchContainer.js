@@ -11,7 +11,6 @@ class UserSearchContainer extends React.Component {
     super(props)
   }
   render (props) {
-    console.log('PROPS',this.props)
     var allUsers = this.props.allUsers;
     allUsers = allUsers.sort(function (a, b) {
       return b.email[0] - a.email[0];

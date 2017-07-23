@@ -20,7 +20,6 @@ router.get('/:userId', (req, res, next) => {
 router.post('/',(req, res, next) => {
   Photos.create(req.body)
     .then((created) => {
-      console.log('CREATED', created)
       res.status(201).send(created)
     })
     .catch(next)

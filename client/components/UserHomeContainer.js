@@ -99,8 +99,6 @@ onUploadFinish(photo){
     link: HOST.concat(photo.publicUrl),
     userId: this.props.userId
     };
-    console.log('STATE',this.state)
-    console.log('NEW PHOTO', newPhoto)
     this.props.upload(newPhoto);
 
     this.setState({

@@ -18892,8 +18892,6 @@ var UserHomeContainer = function (_React$Component) {
                 link: HOST.concat(photo.publicUrl),
                 userId: this.props.userId
             };
-            console.log('STATE', this.state);
-            console.log('NEW PHOTO', newPhoto);
             this.props.upload(newPhoto);
 
             this.setState({
@@ -18971,7 +18969,6 @@ var UserSearchContainer = function (_React$Component) {
   _createClass(UserSearchContainer, [{
     key: 'render',
     value: function render(props) {
-      console.log('PROPS', this.props);
       var allUsers = this.props.allUsers;
       allUsers = allUsers.sort(function (a, b) {
         return b.email[0] - a.email[0];
