@@ -1,10 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+// import PropTypes from 'prop-types';
+// import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { storeUploadedPhoto } from '../reducer/userPosts'
 var ReactS3Uploader = require('react-s3-uploader');
 import { Card, CardTitle, CardActions, CardText, Textfield, Spinner } from 'react-mdl';
+console.log('WINDOW',window)
 const HOST = window.location.protocol.concat("//").concat(window.location.host);
 
 class UserHomeContainer extends React.Component {
@@ -25,7 +26,7 @@ class UserHomeContainer extends React.Component {
   photos = photos.sort(function (a, b) {
   return b.id - a.id;
   })
-  const userId = this.props.userId;
+  //const userId = this.props.userId;
   const userName = this.props.userName;
   return (
         <div className="mdl-grid portfolio-max-width">

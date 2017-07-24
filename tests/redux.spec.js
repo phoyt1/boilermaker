@@ -3,6 +3,7 @@ import { getUser, removeUser } from '../client/reducer/user'
 import { fetchAllUsers } from '../client/reducer/users'
 import { fetchUserPhotoInfo, fetchOtherUserPhotoInfo, addPhoto, storeUploadedPhoto } from '../client/reducer/userPosts'
 import store from '../client/store';
+let testStore;
 // import sinon from 'sinon'
 
 const users = [
@@ -102,7 +103,6 @@ describe('userPosts action creators', () => {
 
 // DISPATCHERS //
 describe('Dispatched actions',() => {
-  let testStore;
   describe('STORE', () => {
     testStore = store;
 
@@ -199,8 +199,9 @@ describe('FETCH_OTHER_USER_PHOTO_INFO',() => {
 describe('ADD_USER_PHOTO',() => {
   it('adds one photo to photoInfo',() => {
     testStore.dispatch({ type: 'ADD_USER_PHOTO', photo: photo });
+    testStore.dispatch({ type: 'GET_USER', user: user });
     const newState = testStore.getState();
-    expect(newState.user).to.be.deep.equal({});
+    expect(newState.user).to.be.deep.equal(user);
     expect(newState.userPosts).to.be.deep
       .equal({
         otherUserPhotoInfo: photoInfo,
@@ -212,5 +213,5 @@ describe('ADD_USER_PHOTO',() => {
 })
 
 })
-
+export default testStore;
 
