@@ -71,7 +71,7 @@ describe('SliderGroup component', () => {
   const userName = 'test'
   let home;
   beforeEach('Create component', () => {
-    console.log('STORE',store.getState())
+    // console.log('STORE',store.getState())
     home = shallow(<UserHomeContainer store={store} />);
   });
 
