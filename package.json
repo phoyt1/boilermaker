@@ -8,7 +8,8 @@
     "start-dev": "webpack -w & NODE_ENV=development nodemon server",
     "start-server": "nodemon server",
     "build-client": "webpack",
-    "test": "NODE_ENV=development DATABASE_URL='postgres://localhost:5432/photographer_test' mocha --require setup.js --recursive ./**/*.spec.js --compilers js:babel-register"
+    "test": "NODE_ENV=development DATABASE_URL='postgres://localhost:5432/photographer_test' mocha --require setup.js --recursive ./**/*.spec.js --compilers js:babel-register",
+    "selenium": "NODE_ENV=development mocha ./selenium/*.spec.js --compilers js:babel-register"
   },
   "author": "",
   "license": "ISC",
@@ -47,6 +48,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-properties": "^1.2.1",
     "chai-things": "^0.2.0",
+    "chromedriver": "^2.31.0",
     "css-loader": "^0.26.1",
     "enzyme": "^2.8.2",
     "jsdom": "^11.1.0",
@@ -54,6 +56,7 @@
     "node-sass": "^4.5.0",
     "react-addons-test-utils": "^15.6.0",
     "sass-loader": "^6.0.0",
+    "selenium-webdriver": "^3.5.0",
     "sinon": "^2.3.8",
     "style-loader": "^0.13.1",
     "supertest": "^3.0.0",
