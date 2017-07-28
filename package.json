@@ -8,7 +8,8 @@
     "start-dev": "webpack -w & NODE_ENV=development nodemon server",
     "start-server": "nodemon server",
     "build-client": "webpack",
-    "test": "NODE_ENV=development DATABASE_URL='postgres://localhost:5432/photographer_test' mocha --require setup.js --recursive ./tests/*.spec.js --compilers js:babel-register",
+    "test": "DATABASE_URL='postgres://localhost:5432/photographer_test' mocha --require setup.js --recursive ./tests/*.spec.js --compilers js:babel-register",
+    "test-dev": "NODE_ENV=development DATABASE_URL='postgres://localhost:5432/photographer_test' mocha --require setup.js --recursive ./tests/*.spec.js --compilers js:babel-register",
     "selenium": "NODE_ENV=development mocha ./selenium/*.spec.js --compilers js:babel-register"
   },
   "author": "",
